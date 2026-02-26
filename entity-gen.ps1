@@ -2,7 +2,7 @@ param(
   [Parameter(Mandatory=$true)][string]$ProjectDir,                 # C:\dev\ms-clientes
   [Parameter(Mandatory=$true)][string]$BasePackage,                # com.tuorg.msclientes
   [Parameter(Mandatory=$true)][string]$Entity,                     # Cliente
-  [Parameter(Mandatory=$true)][ValidateSet("mysql","mongo")][string]$Db,
+  [Parameter(Mandatory=$true)][ValidateSet("mysql","mongo")][string]$Bd,
   [Parameter(Mandatory=$false)][string]$IdType = "Long",           # Long | UUID | String
   [Parameter(Mandatory=$false)][string]$Fields = "nombre:String"   # "nombre:String,email:String,edad:Integer"
 )
@@ -55,11 +55,11 @@ Ensure-Dir (Join-Path $featureRoot "infrastructure")
 Ensure-Dir (Join-Path $featureRoot "api\dto")
 
 # ---------- DOMAIN (Entity/Document) ----------
-$ann = if($Db -eq "mysql"){"@Entity`n@Table(name = `"$($entityVar)s`")"} else {"@Document(collection = `"$($entityVar)s`")"}
+$ann = if($Bd -eq "mysql"){"@Entity`n@Table(name = `"$($entityVar)s`")"} else {"@Document(collection = `"$($entityVar)s`")"}
 $imports = @(
   "import lombok.*;"
 )
-if($Db -eq "mysql"){
+if($Bd -eq "mysql"){
   $imports += @(
     "import jakarta.persistence.*;"
   )
@@ -71,7 +71,7 @@ if($Db -eq "mysql"){
 }
 
 # id annotation
-$idDecl = if($Db -eq "mysql"){
+$idDecl = if($Bd -eq "mysql"){
   if($IdType -eq "Long"){
     "  @Id`n  @GeneratedValue(strategy = GenerationType.IDENTITY)`n  private Long id;"
   } else {
@@ -162,12 +162,12 @@ $dtoUpdate | Set-Content -Encoding UTF8 (Join-Path $dtoDir "${entityName}UpdateR
 $dtoResp   | Set-Content -Encoding UTF8 (Join-Path $dtoDir "${entityName}Response.java")
 
 # ---------- REPOSITORY ----------
-$repoImports = if($Db -eq "mysql"){
+$repoImports = if($Bd -eq "mysql"){
   @("import org.springframework.data.jpa.repository.JpaRepository;")
 } else {
   @("import org.springframework.data.mongodb.repository.MongoRepository;")
 }
-$repoExtends = if($Db -eq "mysql"){"JpaRepository"} else {"MongoRepository"}
+$repoExtends = if($Bd -eq "mysql"){"JpaRepository"} else {"MongoRepository"}
 
 $repoJava = @"
 package $pkgInfra;
