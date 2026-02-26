@@ -5,8 +5,9 @@ Generate micro services based on java, faster.
 # ms-gen.ps1 
 Genera la estrucura de archivos del micro servicio.
 Ejemplo de uso en linea de comandos:
+Utiliza el nombre del microservicio para generar el nombre del directorio a ubicar la estrucutra del mismo.
 
-.\ms-gen.ps1 -Name ms_clientes -GroupId com.tuorg -Db mysql -Build maven -OutputDir C:\dev
+.\ms-gen.ps1 -Name ms_clientes -GroupId com.tuorg -Db mysql -Build maven -OutputDir .
 
 2) 
 # entity-gen.ps1 
