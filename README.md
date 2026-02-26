@@ -7,7 +7,8 @@ Genera la estrucura de archivos del micro servicio.
 Ejemplo de uso en linea de comandos:
 Utiliza el nombre del microservicio para generar el nombre del directorio a ubicar la estrucutra del mismo.
 
-.\ms-gen.ps1 -Name ms_clientes -GroupId com.tuorg -Db mysql -Build maven -OutputDir .
+Comando =>
+.\ms-gen.ps1 -Name ms_clientes -GroupId com.Project -Bd mysql -Build maven -OutputDir .
 
 2) 
 # entity-gen.ps1 
@@ -33,6 +34,10 @@ Ejemplo de uso en linea de comandos, mongo:
   -Db mongo `
   -IdType String `
   -Fields "title:String,contenido:String"
+
+Comando =>
+
+.\entity-gen.ps1 -ProjectDir ./ms_clientes/. -BasePackage com.Project -Entity Clientes -Bd mysql -Fields "field:Type,field:Type"
 
 3) 
 cd C:\dev\ms-clientes
